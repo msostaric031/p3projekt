@@ -2,7 +2,7 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/LoginScreen";
-import { WineCatalogue } from "../screens/WineCatalogue";
+import { HomeScreen } from "../screens/HomeScreen";
 import { UserInfoSceen } from "../screens/UserInfoScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -19,7 +19,7 @@ export function MyStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="WineCatalogue" component={TabNavigator} />
+        <Stack.Screen name="HomeScreen" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -34,7 +34,7 @@ export function TabNavigator() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === "WineCatalogue") {
+            if (route.name === "HomeScreen") {
               iconName = focused ? "wine" : "wine-outline";
             } else if (route.name === "UserInfo") {
               iconName = focused ? "person" : "person-outline";
@@ -69,6 +69,28 @@ export function TabNavigator() {
           }}
         />
         <Tab.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            headerTitle: "Home Screen",
+            headerTitleStyle: {
+              fontWeight: "bold",
+              fontSize: 25,
+              paddingBottom: 5,
+              color: "white",
+            },
+            headerStyle: {
+              backgroundColor: "darkred",
+              shadowColor: "transparent",
+              height: 120,
+            },
+            title: "HOME SCREEN",
+            tabBarStyle: {
+              paddingTop: 5,
+            },
+          }}
+        />
+        <Tab.Screen
           name="UserInfo"
           component={UserInfoSceen}
           options={{
@@ -85,29 +107,6 @@ export function TabNavigator() {
               height: 120,
             },
             title: "USER INFO",
-            tabBarStyle: {
-              paddingTop: 5,
-            },
-          }}
-        />
-
-        <Tab.Screen
-          name="WineCatalogue"
-          component={WineCatalogue}
-          options={{
-            headerTitle: "Wine Catalogue",
-            headerTitleStyle: {
-              fontWeight: "bold",
-              fontSize: 25,
-              paddingBottom: 5,
-              color: "white",
-            },
-            headerStyle: {
-              backgroundColor: "darkred",
-              shadowColor: "transparent",
-              height: 120,
-            },
-            title: "WINE CATALOGUE",
             tabBarStyle: {
               paddingTop: 5,
             },

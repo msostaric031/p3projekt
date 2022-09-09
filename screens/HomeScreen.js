@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TextInput,
-  FlatList,
-  Alert,
-} from "react-native";
-import * as Google from "expo-google-app-auth";
+import { View, Text, StyleSheet } from "react-native";
 
-export function WineCatalogue({ route, navigation }) {
+export function HomeScreen({ route, navigation }) {
   return (
     <View style={styles.screen}>
       <Text>Home screen</Text>
