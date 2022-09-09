@@ -20,10 +20,7 @@ export function LoginScreen({ navigation }) {
         if (type == "success") {
           const { email, name, photoUrl } = user;
           console.log("Signin successfull");
-          setTimeout(
-            () => navigation.navigate("UserInfo", { email, name, photoUrl }),
-            1000
-          );
+          navigation.navigate("UserInfo", { email, name, photoUrl }), 1000;
         } else {
           console.log("Siging not successfull");
         }
