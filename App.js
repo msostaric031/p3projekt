@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { TabNavigator } from "./navigation/navigator";
+import { MyStack, TabNavigator } from "./navigation/navigator";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  return <TabNavigator />;
+  return <MyStack />;
 }
 
 const styles = StyleSheet.create({

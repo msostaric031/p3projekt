@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
 
 export function HomeScreen({ route, navigation }) {
+  function handleNavPress() {
+    navigation.navigate("UserInfo");
+  }
   return (
     <View style={styles.screen}>
       <Text>Home screen</Text>
+      <Button onPress={handleNavPress} title="User info" />
     </View>
   );
 }
