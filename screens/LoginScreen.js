@@ -1,9 +1,11 @@
-import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Button, StyleSheet, Text } from "react-native";
 import * as Google from "expo-google-app-auth";
 
 export function LoginScreen({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const handleGoogleSignIn = () => {
+    setLoading(true);
     const config = {
       iosClientId:
         "608924630924-37cv4o1pg812fa42a04ev4h7ppe6iii4.apps.googleusercontent.com",
@@ -19,25 +21,32 @@ export function LoginScreen({ navigation }) {
         const { type, user } = result;
         if (type == "success") {
           const { email, name, photoUrl } = user;
+          alert(`User ${user.name} is logged in.`);
           console.log("Signin successfull");
           navigation.navigate("UserInfo", { email, name, photoUrl }), 1000;
         } else {
-          console.log("Siging not successfull");
+          alert("Siging not successfull");
         }
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(setLoading(false));
   };
 
   return (
     <View style={styles.screen}>
       <View style={styles.buttonContainer}>
-        <Button
-          title="Google SignIn"
-          onPress={handleGoogleSignIn}
-          style={styles.button}
-        />
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <Button
+            title="Google SignIn"
+            onPress={handleGoogleSignIn}
+            style={styles.button}
+            disabled={loading}
+          />
+        )}
       </View>
     </View>
   );
@@ -49,9 +58,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonContainer: {
-    backgroundColor: "#1ecbe1",
-  },
+
   button: {
     color: "black",
     width: 200,

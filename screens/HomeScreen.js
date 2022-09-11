@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,12 +9,16 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
-
 import Task from "../components/Task";
 
 export function HomeScreen({ route, navigation }) {
-  const [task, setTask] = useState();
+  function handleNavPress() {
+    navigation.navigate("UserInfo");
+  }
+  const [task, setTask] = useState("");
   const [taskItems, setTaskItems] = useState([]);
+  const [show, setShow] = useState(false);
+  const [editIndex, setEditIndex] = useState();
 
   const handleAddTask = () => {
     Keyboard.dismiss();
@@ -28,16 +32,27 @@ export function HomeScreen({ route, navigation }) {
     setTaskItems(itemsCopy);
   };
 
-  function handleNavPress() {
-    navigation.navigate("UserInfo");
-  }
+  const handleEdit = (i) => {
+    Keyboard.emit();
+    setTask(taskItems[i]);
+    setShow(true);
+    setEditIndex(i);
+  };
+
+  const handleUpdate = () => {
+    taskItems.splice(editIndex, 1, task);
+    setTaskItems([...taskItems]);
+    setShow(false);
+    setTask("");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
+        <View style={styles.navButton}>
+          <Button onPress={handleNavPress} title="user info" />
+        </View>
       </View>
-
       <View style={styles.items}>
         {taskItems.map((item, index) => {
           return (
@@ -47,14 +62,14 @@ export function HomeScreen({ route, navigation }) {
                 <TouchableOpacity
                   style={styles.delete}
                   title="Delete task"
-                  onPress={() => completeTask()}
+                  onPress={() => completeTask(index)}
                 >
                   <Text>Delete Task</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.edit}
                   title="Edit task"
-                  onPress={() => console.log("pressed")}
+                  onPress={() => handleEdit(index)}
                 >
                   <Text>Edit Task</Text>
                 </TouchableOpacity>
@@ -63,7 +78,6 @@ export function HomeScreen({ route, navigation }) {
           );
         })}
       </View>
-
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
@@ -74,11 +88,28 @@ export function HomeScreen({ route, navigation }) {
           value={task}
           onChangeText={(text) => setTask(text)}
         />
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
+
+        {!show ? (
+          <TouchableOpacity
+            onPress={
+              !task
+                ? () => alert("Enter the title of the task first")
+                : () => handleAddTask()
+            }
+          >
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={!task ? () => setShow(false) : () => handleUpdate()}
+          >
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>/</Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </KeyboardAvoidingView>
     </View>
   );
@@ -142,5 +173,9 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  navButton: {
+    maxWidth: 160,
+    bottom: 55,
   },
 });

@@ -12,14 +12,18 @@ const Stack = createStackNavigator();
 export function MyStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="UserInfo"
           component={UserInfoSceen}
-          options={{ title: "Log Out" }}
+          options={{ title: "Info Screen" }}
         />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ title: "Today's Tasks" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
